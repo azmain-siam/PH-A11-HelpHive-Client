@@ -86,7 +86,7 @@ const Navbar = () => {
               <NavLink
                 className={({ isActive }) =>
                   isActive
-                    ? "border-b-[2px] border-primary pb-1 px-1 text-primary"
+                    ? "border-b-[2px] border-primary pb-1 px-1"
                     : "hover:text-primary"
                 }
                 to={"/"}
@@ -98,7 +98,7 @@ const Navbar = () => {
               <NavLink
                 className={({ isActive }) =>
                   isActive
-                    ? "border-b-2 border-primary pb-1 px-1 text-primary"
+                    ? "border-b-2 border-primary pb-1 px-1"
                     : "hover:text-primary duration-100"
                 }
                 to={"/need-volunteer"}
@@ -146,6 +146,7 @@ const Navbar = () => {
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </label>
+
           {user ? (
             <div
               data-tooltip-id="my-tooltip"
@@ -164,24 +165,35 @@ const Navbar = () => {
                       user?.photoURL ||
                       "https://static.vecteezy.com/system/resources/previews/005/005/788/original/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg"
                     }
-                    alt=""
                   />
                 </div>
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 space-y-1 font-semibold shadow-lg bg-base-100 rounded-box w-max"
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 font-semibold shadow-lg bg-base-100 rounded-box w-max capitalize"
               >
                 <li>
-                  <Link to={"/profile-update"} className="justify-between">
+                  <Link to={"/profile-update"} className="py-2">
                     Profile
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/add-volunteer"}>Add Volunteer Post</Link>
+                  <Link to={"/manage-post"} className="py-2">
+                    Manage My Post
+                  </Link>
                 </li>
                 <li>
-                  <a onClick={handleLogout}>Logout</a>
+                  <Link to={"/add-volunteer"} className="py-2">
+                    Add Volunteer Post
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    onClick={handleLogout}
+                    className="py-2 bg-primary hover:bg-[#bb3540e8] dark:hover:bg-[#e94250b7] uppercase text-white justify-center mt-2"
+                  >
+                    Logout
+                  </a>
                 </li>
               </ul>
             </div>
