@@ -5,19 +5,21 @@ import logo from "/logo.png";
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import auth from "../firebase/firebase.config";
 
 const Register = () => {
-  const { createUser, updateUser } = useAuth();
+  const { createUser, updateUser, setLoading } = useAuth();
   const [error, setError] = useState("");
-  // const navigate = useNavigate();
-  // const notifyError = () => toast.error(`Try Again`);
-  // const notifySuccess = () => toast.success("Successfully Registered");
+  const navigate = useNavigate();
+  const notifyError = () => toast.error(`Try Again`);
+  const notifySuccess = () => toast.success("Successfully Registered");
   const { register, handleSubmit } = useForm();
   const [showPass, setShowPass] = useState(false);
   const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])/;
 
   const handleRegister = (data) => {
-    const { email, password, photoURL, fullName } = data;
+    const { email, password, image, fullName } = data;
     if (password.length < 6) {
       setError("Password must have at least 6 charecters");
       return;
@@ -29,8 +31,34 @@ const Register = () => {
       return;
     }
     createUser(email, password)
-      .then((result) => console.log(result))
-      .catch((err) => console.log(err));
+      .then(() => {
+        updateUser(fullName, image).then(() => {
+          navigate(location?.state || "/");
+          notifySuccess();
+        });
+      })
+      .catch((error) => {
+        setError(error);
+        notifyError();
+      });
+  };
+  const googleProvider = new GoogleAuthProvider();
+
+  const googleSignin = () => {
+    setLoading(true);
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        if (result.user) {
+          navigate(location?.state || "/");
+          notifySuccess();
+        }
+      })
+      .catch((error) => {
+        if (error.message === "Firebase: Error (auth/invalid-credential).") {
+          setError("Email and Password Does Not Match");
+        }
+        notifyError();
+      });
   };
   return (
     <div className="flex flex-row-reverse w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-transparent lg:max-w-5xl mt-6 mb-10 border dark:border-none">
@@ -50,7 +78,10 @@ const Register = () => {
           Hello There!
         </p>
 
-        <button className="flex w-full items-center justify-center mt-4  transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-primary">
+        <button
+          onClick={googleSignin}
+          className="flex w-full items-center justify-center mt-4  transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-primary"
+        >
           <div className="px-4 py-2">
             <svg className="w-6 h-6" viewBox="0 0 40 40">
               <path
@@ -164,7 +195,7 @@ const Register = () => {
               </span>
             </div>
             {error ? (
-              <p className="text-xs text-red-600 font-medium">{error}</p>
+              <p className="text-xs text-red-600 font-medium mt-2">{error}</p>
             ) : (
               ""
             )}

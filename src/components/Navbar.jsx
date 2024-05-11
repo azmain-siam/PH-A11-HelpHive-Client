@@ -1,10 +1,23 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "/logo.png";
+import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
+
 const Navbar = () => {
+  const { user, logout } = useAuth();
+
+  const notifyLogout = () => toast.success("Successfully Logged Out");
+
+  const handleLogout = () => {
+    logout();
+    notifyLogout();
+  };
+
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "light"
   );
+
   useEffect(() => {
     localStorage.setItem("theme", theme);
     const localTheme = localStorage.getItem("theme");
@@ -145,12 +158,50 @@ const Navbar = () => {
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </label>
-          <Link
-            to={"/login"}
-            className="px-5 py-3 text-sm rounded-full font-semibold bg-primary text-white hover:bg-transparent border-[1px] border-primary hover:border-primary hover:text-black duration-300 dark:hover:text-white"
-          >
-            Login
-          </Link>
+          {user ? (
+            <div
+              data-tooltip-id="my-tooltip"
+              data-tooltip-content={user.displayName}
+              data-tooltip-place="left"
+              className="dropdown dropdown-end tooltip tooltip-left"
+            >
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-8 md:w-10 rounded-full">
+                  <img
+                    src={
+                      user?.photoURL ||
+                      "https://static.vecteezy.com/system/resources/previews/005/005/788/original/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg"
+                    }
+                    alt=""
+                  />
+                </div>
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 font-semibold shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <Link to={"/profile-update"} className="justify-between">
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <a onClick={handleLogout}>Logout</a>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <Link
+              to={"/login"}
+              className="px-5 py-3 text-sm rounded-full font-semibold bg-primary text-white hover:bg-transparent border-[1px] border-primary hover:border-primary hover:text-black duration-300 dark:hover:text-white"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </div>
