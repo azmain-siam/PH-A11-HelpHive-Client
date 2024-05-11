@@ -72,7 +72,7 @@ const Navbar = () => {
           </div>
           <Link
             to={"/"}
-            className="text-[34px] font-spartan lowercase font-semibold flex items-center gap-1"
+            className="text-[34px] font-spartan lowercase font-bold flex items-center gap-1"
           >
             <img className="w-10 gap-0" src={logo} alt="" />
             <h1 className="mt-2">
@@ -81,7 +81,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="flex gap-6 font-medium text-sm uppercase">
+          <ul className="flex gap-6 font-semibold text-sm uppercase">
             <li>
               <NavLink
                 className={({ isActive }) =>
@@ -104,18 +104,6 @@ const Navbar = () => {
                 to={"/need-volunteer"}
               >
                 Need Volunteer
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? "border-b-2 border-primary pb-1 px-1 text-primary"
-                    : "hover:text-primary duration-100"
-                }
-                to={"/add-volunteer"}
-              >
-                Add Volunteer Post
               </NavLink>
             </li>
           </ul>
@@ -182,12 +170,15 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 font-semibold shadow bg-base-100 rounded-box w-52"
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 space-y-1 font-semibold shadow-lg bg-base-100 rounded-box w-max"
               >
                 <li>
                   <Link to={"/profile-update"} className="justify-between">
                     Profile
                   </Link>
+                </li>
+                <li>
+                  <Link to={"/add-volunteer"}>Add Volunteer Post</Link>
                 </li>
                 <li>
                   <a onClick={handleLogout}>Logout</a>

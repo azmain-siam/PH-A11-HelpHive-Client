@@ -212,7 +212,7 @@ const Register = () => {
 
           <Link
             to={"/login"}
-            className="text-sm hover:text-primary text-gray-500 uppercase dark:text-gray-400 hover:underline"
+            className="text-sm hover:text-primary text-gray-500 uppercase dark:text-gray-400 hover:underline underline-offset-[3px]"
           >
             or sign in
           </Link>

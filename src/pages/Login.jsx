@@ -123,7 +123,7 @@ const Login = () => {
             </label>
             <input
               id="LoggingEmailAddress"
-              className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-primary focus:ring-opacity-20 dark:focus:border-primary focus:outline-none"
+              className="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-primary focus:ring-opacity-20 dark:focus:border-primary focus:outline-none"
               type="email"
               required
               placeholder="Enter Your Email"
@@ -143,7 +143,7 @@ const Login = () => {
             <div className="relative flex w-full items-center">
               <input
                 id="loggingPassword"
-                className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-primary focus:ring-opacity-20 dark:focus:border-primary focus:outline-none"
+                className="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-primary focus:ring-opacity-20 dark:focus:border-primary focus:outline-none"
                 type="password"
                 required
                 placeholder="Enter Your Password"
@@ -179,7 +179,7 @@ const Login = () => {
 
           <Link
             to={"/register"}
-            className="text-sm hover:text-primary text-gray-500 uppercase dark:text-gray-400 hover:underline"
+            className="text-sm hover:text-primary text-gray-500 uppercase dark:text-gray-400 hover:underline underline-offset-[3px]"
           >
             or sign up
           </Link>
