@@ -1,7 +1,60 @@
-import { Link } from "react-router-dom";
 import logo from "/logo.png";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import useAuth from "../hooks/useAuth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import auth from "../firebase/firebase.config";
 
 const Login = () => {
+  const { signinUser, setLoading } = useAuth();
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const notifyError = () => toast.error(`Please Check & Try Again`);
+  const notifySuccess = () => toast.success("Successfully Logged In");
+  const [showPass, setShowPass] = useState(false);
+
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data) => {
+    const { email, password } = data;
+    signinUser(email, password)
+      .then((result) => {
+        if (result.user) {
+          navigate(location?.state || "/");
+          notifySuccess();
+        }
+      })
+      .catch((error) => {
+        if (error.message === "Firebase: Error (auth/invalid-credential).") {
+          setError("Email and Password Does Not Match");
+        }
+        notifyError();
+      });
+  };
+
+  const googleProvider = new GoogleAuthProvider();
+
+  const googleSignin = () => {
+    setLoading(true);
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        if (result.user) {
+          navigate(location?.state || "/");
+          notifySuccess();
+        }
+      })
+      .catch((error) => {
+        if (error.message === "Firebase: Error (auth/invalid-credential).") {
+          setError("Email and Password Does Not Match");
+        }
+        notifyError();
+      });
+  };
   return (
     <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-transparent lg:max-w-5xl mt-6 mb-10 border dark:border-none">
       <div
@@ -20,7 +73,10 @@ const Login = () => {
           Welcome back!
         </p>
 
-        <button className="flex w-full items-center justify-center mt-4  transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-primary">
+        <button
+          onClick={googleSignin}
+          className="flex w-full items-center justify-center mt-4  transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-primary"
+        >
           <div className="px-4 py-2">
             <svg className="w-6 h-6" viewBox="0 0 40 40">
               <path
@@ -57,42 +113,66 @@ const Login = () => {
           <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
         </div>
 
-        <div className="mt-4">
-          <label
-            className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200"
-            htmlFor="LoggingEmailAddress"
-          >
-            Email Address
-          </label>
-          <input
-            id="LoggingEmailAddress"
-            className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-primary focus:ring-opacity-20 dark:focus:border-primary focus:outline-none"
-            type="email"
-          />
-        </div>
-
-        <div className="mt-4">
-          <div className="flex justify-between">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="mt-4">
             <label
               className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200"
-              htmlFor="loggingPassword"
+              htmlFor="LoggingEmailAddress"
             >
-              Password
+              Email Address
             </label>
+            <input
+              id="LoggingEmailAddress"
+              className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-primary focus:ring-opacity-20 dark:focus:border-primary focus:outline-none"
+              type="email"
+              required
+              placeholder="Enter Your Email"
+              {...register("email")}
+            />
           </div>
 
-          <input
-            id="loggingPassword"
-            className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-primary focus:ring-opacity-20 dark:focus:border-primary focus:outline-none"
-            type="password"
-          />
-        </div>
+          <div className="mt-4">
+            <div className="flex justify-between">
+              <label
+                className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200"
+                htmlFor="loggingPassword"
+              >
+                Password
+              </label>
+            </div>
+            <div className="relative flex w-full items-center">
+              <input
+                id="loggingPassword"
+                className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-primary focus:ring-opacity-20 dark:focus:border-primary focus:outline-none"
+                type="password"
+                required
+                placeholder="Enter Your Password"
+                {...register("password")}
+              />
+              <span
+                onClick={() => setShowPass(!showPass)}
+                className="cursor-pointer absolute right-5"
+              >
+                {showPass ? (
+                  <FaRegEyeSlash size={22} />
+                ) : (
+                  <FaRegEye size={20} />
+                )}
+              </span>
+            </div>
+            {error ? (
+              <p className="text-xs text-red-600 font-medium mt-2">{error}</p>
+            ) : (
+              ""
+            )}
+          </div>
 
-        <div className="mt-6">
-          <button className="btn w-full font-semibold px-6 py-3 text-sm tracking-wide text-white capitalize border border-primary hover:border-primary duration-300 transform bg-primary rounded-lg hover:bg-transparent hover:text-black dark:hover:text-white hover:scale-105">
-            Sign In
-          </button>
-        </div>
+          <div className="mt-6">
+            <button className="btn w-full font-semibold px-6 py-3 text-sm tracking-wide text-white capitalize border border-primary hover:border-primary duration-300 transform bg-primary rounded-lg hover:bg-transparent hover:text-black dark:hover:text-white hover:scale-105">
+              Sign In
+            </button>
+          </div>
+        </form>
 
         <div className="flex items-center justify-between mt-4">
           <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
