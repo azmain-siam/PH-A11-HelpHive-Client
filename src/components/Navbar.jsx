@@ -170,7 +170,7 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 font-semibold shadow-lg bg-base-100 rounded-box w-max capitalize"
+                className="menu menu-sm dropdown-content mt-3 z-[10] p-2 font-semibold shadow-lg bg-base-100 rounded-box w-max capitalize"
               >
                 <li>
                   <Link to={"/profile-update"} className="py-2">
@@ -183,7 +183,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/add-volunteer"} className="py-2">
+                  <Link to={"/add"} className="py-2">
                     Add Volunteer Post
                   </Link>
                 </li>
