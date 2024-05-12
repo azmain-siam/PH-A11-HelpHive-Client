@@ -8,6 +8,7 @@ import PrivateRoute from "./PrivateRoute";
 import PostDetails from "../pages/PostDetails";
 import NeedVolunteer from "../pages/NeedVolunteer";
 import ManagePost from "../pages/ManagePost";
+import UpdatePost from "../pages/UpdatePost";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ManagePost />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/posts/update",
+        element: (
+          <PrivateRoute>
+            <UpdatePost />
           </PrivateRoute>
         ),
       },

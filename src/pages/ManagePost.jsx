@@ -1,4 +1,4 @@
-import { FaRegPenToSquare, FaTrash } from "react-icons/fa6";
+import { FaRegPenToSquare } from "react-icons/fa6";
 import { ImCancelCircle } from "react-icons/im";
 import { LuTrash2 } from "react-icons/lu";
 
@@ -43,7 +43,7 @@ const ManagePost = () => {
                     <td>item.category</td>
                     <td>item.price</td>
                     <td className="flex items-center justify-center gap-4">
-                      <Link className="col-span-1 ">
+                      <Link to={"/posts/update"} className="col-span-1 ">
                         <FaRegPenToSquare
                           title="Edit"
                           className="text-[#30A458] hover:scale-[1.15] duration-300"
