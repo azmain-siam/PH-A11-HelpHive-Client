@@ -13,7 +13,7 @@ const Root = () => {
   return (
     <div className="font-montserrat text-black dark:text-white">
       <Navbar />
-      <div className="container mx-auto min-h-[calc(100vh-348px)]">
+      <div className="w-[93%] md:w-[95%] max-w-7xl mx-auto min-h-[calc(100vh-348px)]">
         <Outlet />
       </div>
       <Footer />

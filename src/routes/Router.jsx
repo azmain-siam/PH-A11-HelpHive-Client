@@ -4,6 +4,8 @@ import Root from "../layouts/Root";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import AddVolunteer from "../pages/AddVolunteer";
+import PrivateRoute from "./PrivateRoute";
+import PostDetails from "../pages/PostDetails";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +27,21 @@ const router = createBrowserRouter([
       },
       {
         path: "/add",
-        element: <AddVolunteer />,
+        element: (
+          <PrivateRoute>
+            <AddVolunteer />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/post/details/:id",
+        element: (
+          <PrivateRoute>
+            <PostDetails />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/posts/${params.id}`),
       },
     ],
   },

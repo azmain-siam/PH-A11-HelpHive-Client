@@ -1,3 +1,5 @@
+import CardsOfVolunteer from "./CardsOfVolunteer";
+
 const VolunteerNeedSection = ({ posts }) => {
   console.log(posts);
   const displayedPosts = posts.slice(0, 6);
@@ -14,40 +16,9 @@ const VolunteerNeedSection = ({ posts }) => {
           environmental conservation, and animal welfare.
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-2">
         {displayedPosts.map((post) => (
-          <div
-            key={post._id}
-            className="card card-compact w-96 bg-base-100 shadow-xl"
-          >
-            <figure>
-              <img
-                className="object-cover object-center w-full h-56"
-                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                alt="avatar"
-              />
-            </figure>
-            <div className="card-body">
-              <div className="flex-1 space-y-3">
-                <h2 className="card-title">{post.post_title}</h2>
-                <div className="flex items-center text-gray-700 dark:text-gray-200">
-                  <h1 className="text-base font-medium">
-                    Category: {post.category}
-                  </h1>
-                </div>
-                <div className="flex items-center text-gray-700 dark:text-gray-200">
-                  <h1 className="text-base font-medium">
-                    Deadline: {post.deadline}
-                  </h1>
-                </div>
-              </div>
-              <div className="card-actions justify-end">
-                <button className="btn mt-3 w-full bg-primary border-primary hover:border-[#28282B] hover:text-[#28282B] text-white uppercase transition-all hover:bg-white duration-300 hover:scale-105">
-                  View Details
-                </button>
-              </div>
-            </div>
-          </div>
+          <CardsOfVolunteer key={post._id} post={post} />
         ))}
       </div>
     </div>
