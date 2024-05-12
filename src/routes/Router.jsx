@@ -6,6 +6,7 @@ import Register from "../pages/Register";
 import AddVolunteer from "../pages/AddVolunteer";
 import PrivateRoute from "./PrivateRoute";
 import PostDetails from "../pages/PostDetails";
+import NeedVolunteer from "../pages/NeedVolunteer";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`http://localhost:5000/posts/${params.id}`),
+      },
+      {
+        path: "/need-volunteer",
+        element: <NeedVolunteer />,
       },
     ],
   },

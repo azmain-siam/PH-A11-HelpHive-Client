@@ -10,7 +10,7 @@ const VolunteerNeedSection = ({ posts }) => {
           Volunteer Needs Now
         </h3>
         <div className="w-40 md:w-64 h-[3px] bg-primary mx-auto mb-5"></div>
-        <p className="text-[#585858] text-sm md:text-base w-[90%] md:w-[600px] lg:w-[800px] mx-auto">
+        <p className="text-[#585858] dark:text-gray-300 text-sm md:text-base w-[90%] md:w-[600px] lg:w-[800px] mx-auto">
           Browse through a diverse range of volunteer opportunities spanning
           various categories such as social service, education, healthcare,
           environmental conservation, and animal welfare.
