@@ -27,7 +27,7 @@ const CardsOfVolunteer = ({ post }) => {
         </div>
         <div className="card-actions">
           <Link className="w-full" to={`/post/details/${post._id}`}>
-            <button className="btn px-6 w-full rounded-xl mt-3 bg-black border-black hover:border-[#28282B] hover:text-[#28282B] text-white uppercase transition-all hover:bg-white duration-300 hover:scale-105">
+            <button className="btn px-6 w-full rounded-xl mt-3 bg-black border-black hover:border-[#28282B] dark:bg-primary dark:border-primary dark:hover:bg-transparent  dark:hover:text-white hover:text-[#28282B] text-white uppercase transition-all hover:bg-white duration-300 hover:scale-105">
               View Details
             </button>
           </Link>

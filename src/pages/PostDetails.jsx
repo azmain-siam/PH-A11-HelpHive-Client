@@ -51,7 +51,7 @@ const PostDetails = () => {
                 </button>
               </div>
             </div>
-            <div className="mb-3 text-neutral-600 dark:text-gray-300 text-sm">
+            <div className="mb-3 text-neutral-600 font-medium dark:text-gray-300 text-sm">
               {post.description}
             </div>
             <div className="flex items-center space-x-8"></div>
@@ -68,7 +68,7 @@ const PostDetails = () => {
             </div>
 
             <div className="w-full space-x-3">
-              <div className="">
+              <div>
                 <h2 className="text-gray-500 dark:text-gray-400 text-sm md:text-base font-semibold">
                   Location
                 </h2>
@@ -77,7 +77,7 @@ const PostDetails = () => {
             </div>
             <div>
               <Link>
-                <button className="btn mt-3 w-full bg-primary border-primary hover:border-[#28282B] hover:text-[#28282B] text-white uppercase transition-all hover:bg-white duration-300 hover:scale-105">
+                <button className="btn mt-3 px-12 bg-primary border-primary hover:border-[#28282B] hover:text-[#28282B] text-white rounded-xl uppercase transition-all hover:bg-white duration-300 hover:scale-105">
                   Be a Volunteer
                 </button>
               </Link>
