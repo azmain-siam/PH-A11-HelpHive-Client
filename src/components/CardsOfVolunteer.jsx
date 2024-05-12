@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
+import { PropTypes } from "prop-types";
 
-const CardsOfVolunteer = ({post}) => {
+const CardsOfVolunteer = ({ post }) => {
   return (
     <div className="card card-compact w-full bg-base-100 shadow-xl border dark:border-gray-700">
       <figure>
@@ -34,3 +35,6 @@ const CardsOfVolunteer = ({post}) => {
 
 export default CardsOfVolunteer;
 
+CardsOfVolunteer.propTypes = {
+  post: PropTypes.object,
+};

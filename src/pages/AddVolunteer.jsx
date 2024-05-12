@@ -1,7 +1,6 @@
 import useAuth from "../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
-import { Bars } from "react-loader-spinner";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -11,23 +10,11 @@ const AddVolunteer = () => {
   const { user } = useAuth();
   const [startDate, setStartDate] = useState(new Date());
 
-  const { register, handleSubmit, reset } = useForm();
-
-  // if (loading) {
-  //   return (
-  //     <div className="flex h-full w-full justify-center items-center pt-20">
-  //       <Bars
-  //         height="80"
-  //         width="80"
-  //         color="#E9424F"
-  //         ariaLabel="bars-loading"
-  //         wrapperStyle={{}}
-  //         wrapperClass=""
-  //         visible={true}
-  //       />
-  //     </div>
-  //   );
-  // }
+  const {
+    register,
+    // handleSubmit,
+    // reset
+  } = useForm();
 
   return (
     <div className="mb-5 mt-10 max-w-7xl w-[95%] md:w-[93%] mx-auto">

@@ -1,7 +1,7 @@
 import CardsOfVolunteer from "./CardsOfVolunteer";
+import PropTypes from "prop-types";
 
 const VolunteerNeedSection = ({ posts }) => {
-  console.log(posts);
   const displayedPosts = posts.slice(0, 6);
   return (
     <div>
@@ -26,3 +26,7 @@ const VolunteerNeedSection = ({ posts }) => {
 };
 
 export default VolunteerNeedSection;
+
+VolunteerNeedSection.propTypes = {
+  posts: PropTypes.array,
+};
