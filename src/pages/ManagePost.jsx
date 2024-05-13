@@ -15,6 +15,8 @@ import notFound from "../assets/no-data.svg";
 const ManagePost = () => {
   const { user } = useAuth();
   const [posts, setPosts] = useState([]);
+  console.log(posts);
+  const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
@@ -28,6 +30,18 @@ const ManagePost = () => {
       setLoading(false);
     };
     getData();
+  }, [user, refresh]);
+
+  useEffect(() => {
+    setLoading(true);
+    const getRequestsData = async () => {
+      const { data } = await axios(
+        `${import.meta.env.VITE_URL}/requests/${user.email}`
+      );
+      setRequests(data);
+      setLoading(false);
+    };
+    getRequestsData();
   }, [user, refresh]);
 
   const handleDelete = async (id) => {
@@ -49,7 +63,36 @@ const ManagePost = () => {
             if (data.deletedCount > 0) {
               Swal.fire({
                 title: "Deleted!",
-                text: "Your file has been deleted.",
+                text: "Your post has been deleted.",
+                icon: "success",
+              });
+            }
+            setRefresh(!refresh);
+          });
+      }
+    });
+  };
+
+  const handleCancelRequest = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, cancel request!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`${import.meta.env.VITE_URL}/request/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount > 0) {
+              Swal.fire({
+                title: "Request Canceled!",
+                text: "Your request has been canceled.",
                 icon: "success",
               });
             }
@@ -101,6 +144,7 @@ const ManagePost = () => {
                   <thead className="text-sm text-gray-500 dark:text-gray-400">
                     <tr className="border-[#e4e4e4] dark:border-gray-500">
                       <th>Post Title</th>
+                      <th>Volunteer Need</th>
                       <th>Category</th>
                       <th>Deadline</th>
                       <th className="text-center">Action</th>
@@ -113,6 +157,7 @@ const ManagePost = () => {
                         className="font-semibold border-[#e4e4e4] dark:border-gray-500"
                       >
                         <td>{post.post_title}</td>
+                        <td>{post.volunteers_needed}</td>
                         <td>{post.category}</td>
                         <td>{new Date(post.deadline).toLocaleDateString()}</td>
                         <td className="flex items-center justify-center gap-4">
@@ -158,35 +203,71 @@ const ManagePost = () => {
             )}
           </TabPanel>
           <TabPanel>
-            <div className="overflow-x-auto mt-5 border border-[#e4e4e4] dark:border-gray-500 rounded-lg">
-              <table className="table">
-                <thead className="text-sm text-gray-500 dark:text-gray-400">
-                  <tr className="border-[#e4e4e4] dark:border-gray-500">
-                    <th>Post Title</th>
-                    <th>Category</th>
-                    <th>Deadline</th>
-                    <th>Status</th>
+            {requests.length > 0 ? (
+              <div
+                id="requests"
+                className="overflow-x-auto mt-7 border border-[#e4e4e4] dark:border-gray-500 rounded-lg"
+              >
+                <table className="table">
+                  <thead className="text-sm text-gray-500 dark:text-gray-400">
+                    <tr className="border-[#e4e4e4] dark:border-gray-500">
+                      <th>Post Title</th>
+                      <th>Organizer Email</th>
+                      <th>Category</th>
+                      <th>Deadline</th>
+                      <th className="text-center">Status</th>
 
-                    <th className="text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody className="text-sm">
-                  <tr className="font-semibold border-[#e4e4e4] dark:border-gray-500">
-                    <td>item.itemNam</td>
-                    <td>item.category</td>
-                    <td>item.category</td>
-                    <td>item.price</td>
-                    <td className="flex items-center justify-center">
-                      <ImCancelCircle
-                        title="Cancel Request"
-                        className="cursor-pointer text-primary hover:scale-[1.15] duration-300"
-                        size={21}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                      <th className="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-sm">
+                    {requests.map((request) => (
+                      <tr
+                        key={request._id}
+                        className="font-semibold border-[#e4e4e4] dark:border-gray-500"
+                      >
+                        <td>{request.post_title}</td>
+                        <td>{request.organizerEmail}</td>
+                        <td>{request.category}</td>
+                        <td>
+                          {new Date(request.deadline).toLocaleDateString()}
+                        </td>
+                        <td className="text-center">
+                          <button className="rounded-2xl text-[#45c045] dark:text-[#ffb5ba] text-xs  border bg-[#5cb85c0e] dark:bg-transparent px-3 py-[2px] font-semibold border-[#5cb85c] cursor-default">
+                            {request.status}
+                          </button>
+                        </td>
+                        <td className="flex items-center justify-center">
+                          <button
+                            onClick={() => handleCancelRequest(request._id)}
+                            className="col-span-1 "
+                          >
+                            <ImCancelCircle
+                              title="Cancel Request"
+                              className="cursor-pointer text-primary hover:scale-[1.15] duration-300"
+                              size={21}
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="text-center my-10">
+                <img className="w-[200px] mx-auto" src={notFound} alt="" />
+                <h3 className="text-center mt-5 font-medium text-xl">
+                  You didn't post anything!{" "}
+                  <Link
+                    className="underline font-semibold text-primary underline-offset-[4px]"
+                    to={"/add"}
+                  >
+                    Add a Post!
+                  </Link>
+                </h3>
+              </div>
+            )}
           </TabPanel>
         </Tabs>
       </div>
