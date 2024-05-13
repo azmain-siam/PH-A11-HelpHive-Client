@@ -8,7 +8,7 @@ const NeedVolunteer = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:5000/posts")
+    fetch(`${import.meta.env.VITE_URL}/posts`)
       .then((res) => res.json())
       .then((data) => {
         setPosts(data);

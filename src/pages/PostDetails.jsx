@@ -76,8 +76,8 @@ const PostDetails = () => {
               </div>
             </div>
             <div>
-              <Link>
-                <button className="btn mt-3 px-12 bg-primary border-primary hover:border-[#28282B] hover:text-[#28282B] text-white rounded-xl uppercase transition-all hover:bg-white duration-300 hover:scale-105">
+              <Link to={"/apply"}>
+                <button className="btn mt-3 px-12 bg-primary border-primary hover:border-[#28282B] hover:text-[#28282B] text-white uppercase transition-all hover:bg-white duration-300 hover:scale-105">
                   Be a Volunteer
                 </button>
               </Link>

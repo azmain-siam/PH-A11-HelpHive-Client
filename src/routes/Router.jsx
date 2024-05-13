@@ -9,6 +9,7 @@ import PostDetails from "../pages/PostDetails";
 import NeedVolunteer from "../pages/NeedVolunteer";
 import ManagePost from "../pages/ManagePost";
 import UpdatePost from "../pages/UpdatePost";
+import BeVolunteer from "../pages/BeVolunteer";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        loader: () => fetch(`http://localhost:5000/posts`),
+        loader: () => fetch(`${import.meta.env.VITE_URL}/posts`),
       },
       {
         path: "/login",
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/posts/${params.id}`),
+          fetch(`${import.meta.env.VITE_URL}/posts/${params.id}`),
       },
       {
         path: "/need-volunteer",
@@ -63,6 +64,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <UpdatePost />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/apply",
+        element: (
+          <PrivateRoute>
+            <BeVolunteer />
           </PrivateRoute>
         ),
       },
