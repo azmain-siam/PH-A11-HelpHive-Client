@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import CardsOfVolunteer from "./CardsOfVolunteer";
 import PropTypes from "prop-types";
 
@@ -21,6 +22,11 @@ const VolunteerNeedSection = ({ posts }) => {
           <CardsOfVolunteer key={post._id} post={post} />
         ))}
       </div>
+      <Link to={"/need-volunteer"} className="flex justify-center mt-8">
+        <button className="btn px-10 rounded-md mt-3 hover:border-primary bg-primary border-primary dark:hover:bg-transparent  dark:hover:text-white hover:text-[#28282B] text-white uppercase transition-all hover:bg-white duration-300 hover:scale-105">
+          Show All Posts
+        </button>
+      </Link>
     </div>
   );
 };

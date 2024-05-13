@@ -29,7 +29,7 @@ const Slider = ({ slides }) => {
               className="h-[300px] md:h-[450px] lg:h-[550px]"
             >
               <div className="h-[300px] md:h-full w-full bg-black bg-opacity-50 text-center flex flex-col justify-center items-center">
-                <h3 className="text-white text-2xl md:text-6xl font-bold mb-3">
+                <h3 className="text-white font-spartan text-2xl md:text-6xl font-bold mb-3">
                   <Typewriter
                     words={[slide.title]}
                     loop={100}
@@ -41,7 +41,7 @@ const Slider = ({ slides }) => {
                     cursorColor="#E9424F"
                   />
                 </h3>
-                <p className="text-[#FFFFFFCC] text-xs md:text-lg w-[75%] md:w-[700px]">
+                <p className="text-[#FFFFFFCC] text-xs md:text-base w-[75%] md:w-[700px]">
                   {slide.description}
                 </p>
               </div>
