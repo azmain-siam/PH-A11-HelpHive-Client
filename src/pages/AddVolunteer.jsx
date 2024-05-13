@@ -5,10 +5,13 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "react-datepicker/dist/react-datepicker.css";
+import { useNavigate } from "react-router-dom";
 
 const AddVolunteer = () => {
   const { user } = useAuth();
   const [startDate, setStartDate] = useState(new Date());
+  const navigate = useNavigate();
+
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = async (data) => {
     const organizerName = user.displayName;
@@ -44,11 +47,12 @@ const AddVolunteer = () => {
         postData
       );
       console.log(data);
+      reset();
+      navigate("/manage-post");
       return toast.success("Posted Successfully!");
     } catch (error) {
       console.log(error);
     }
-    reset();
   };
 
   return (

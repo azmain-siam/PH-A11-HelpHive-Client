@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -21,6 +21,7 @@ const BeVolunteer = () => {
   const { user } = useAuth();
 
   const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
 
   const onSubmit = async () => {
     if (user.email === organizerEmail) {
@@ -50,6 +51,8 @@ const BeVolunteer = () => {
         requestData
       );
       console.log(data);
+      navigate('/manage-post')
+      return toast.success("Requested Successfully!");
     } catch (error) {
       console.log(error);
     }

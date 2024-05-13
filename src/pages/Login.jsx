@@ -8,11 +8,19 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import auth from "../firebase/firebase.config";
+import { useEffect } from "react";
 
 const Login = () => {
+  const { user, loading } = useAuth();
   const { signinUser, setLoading } = useAuth();
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [navigate, user]);
   const location = useLocation();
   const notifyError = () => toast.error(`Please Check & Try Again`);
   const notifySuccess = () => toast.success("Successfully Logged In");
@@ -55,6 +63,8 @@ const Login = () => {
         notifyError();
       });
   };
+
+  if (user || loading) return;
   return (
     <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-transparent lg:max-w-5xl mt-6 mb-10 border dark:border-none">
       <div

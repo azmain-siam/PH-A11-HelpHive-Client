@@ -60,12 +60,14 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/posts/update",
+        path: "/posts/update/:id",
         element: (
           <PrivateRoute>
-            <UpdatePost />
+            <UpdatePost/>
           </PrivateRoute>
         ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_URL}/posts/${params.id}`),
       },
       {
         path: "/apply/:id",

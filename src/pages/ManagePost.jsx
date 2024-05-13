@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { FaRegPenToSquare } from "react-icons/fa6";
 import { ImCancelCircle } from "react-icons/im";
 import { LuTrash2 } from "react-icons/lu";
@@ -9,6 +10,7 @@ import useAuth from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Bars } from "react-loader-spinner";
+import notFound from "../assets/no-data.svg";
 
 const ManagePost = () => {
   const { user } = useAuth();
@@ -23,9 +25,9 @@ const ManagePost = () => {
         `${import.meta.env.VITE_URL}/post/${user.email}`
       );
       setPosts(data);
+      setLoading(false);
     };
     getData();
-    setLoading(false);
   }, [user, refresh]);
 
   const handleDelete = async (id) => {
@@ -74,68 +76,86 @@ const ManagePost = () => {
   }
 
   return (
-    <div className="my-5 max-w-7xl w-[95%] md:w-[93%] mx-auto mt-10 md:mt-14">
+    <div className="my-5 max-w-7xl w-[95%] md:w-[93%] mx-auto mt-10 md:mt-12">
       {/* <Helmet>
         <title>All Crafts | ArtFusion</title>
       </Helmet> */}
-      <div className="text-center mb-10 md:mb-14">
+      <div className="text-center mb-10 md:mb-12">
         <h3 className="text-2xl md:text-4xl font-bold mb-3">
           <span className="text-primary">Manage</span> My Posts
         </h3>
       </div>
-      <div className="">
+      <div>
         <Tabs>
           <div className="font-semibold">
             <TabList>
-              <Tab>Need Volunteer Posts</Tab>
-              <Tab>Volunteer Request Post</Tab>
+              <Tab>My Need Volunteer Post</Tab>
+              <Tab>My Volunteer Request Post</Tab>
             </TabList>
           </div>
 
           <TabPanel>
-            <div className="overflow-x-auto mt-7 border border-[#e4e4e4] dark:border-gray-500 rounded-lg">
-              <table className="table">
-                <thead className="text-sm text-gray-500 dark:text-gray-400">
-                  <tr className="border-[#e4e4e4] dark:border-gray-500">
-                    <th>Post Title</th>
-                    <th>Category</th>
-                    <th>Deadline</th>
-                    <th className="text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody className="text-sm">
-                  {posts.map((post) => (
-                    <tr
-                      key={post._id}
-                      className="font-semibold border-[#e4e4e4] dark:border-gray-500"
-                    >
-                      <td>{post.post_title}</td>
-                      <td>{post.category}</td>
-                      <td>{new Date(post.deadline).toLocaleDateString()}</td>
-                      <td className="flex items-center justify-center gap-4">
-                        <Link to={"/posts/update"} className="col-span-1 ">
-                          <FaRegPenToSquare
-                            title="Edit"
-                            className="text-[#30A458] hover:scale-[1.15] duration-300"
-                            size={19}
-                          />
-                        </Link>
-                        <button
-                          onClick={() => handleDelete(post._id)}
-                          className="col-span-1 "
-                        >
-                          <LuTrash2
-                            title="Delete"
-                            className="text-[#E7404C] hover:scale-[1.15] duration-300"
-                            size={21}
-                          />
-                        </button>
-                      </td>
+            {posts.length > 0 ? (
+              <div className="overflow-x-auto mt-7 border border-[#e4e4e4] dark:border-gray-500 rounded-lg">
+                <table className="table">
+                  <thead className="text-sm text-gray-500 dark:text-gray-400">
+                    <tr className="border-[#e4e4e4] dark:border-gray-500">
+                      <th>Post Title</th>
+                      <th>Category</th>
+                      <th>Deadline</th>
+                      <th className="text-center">Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="text-sm">
+                    {posts.map((post) => (
+                      <tr
+                        key={post._id}
+                        className="font-semibold border-[#e4e4e4] dark:border-gray-500"
+                      >
+                        <td>{post.post_title}</td>
+                        <td>{post.category}</td>
+                        <td>{new Date(post.deadline).toLocaleDateString()}</td>
+                        <td className="flex items-center justify-center gap-4">
+                          <Link
+                            to={`/posts/update/${post._id}`}
+                            className="col-span-1 "
+                          >
+                            <FaRegPenToSquare
+                              title="Edit"
+                              className="text-[#30A458] hover:scale-[1.15] duration-300"
+                              size={19}
+                            />
+                          </Link>
+                          <button
+                            onClick={() => handleDelete(post._id)}
+                            className="col-span-1 "
+                          >
+                            <LuTrash2
+                              title="Delete"
+                              className="text-[#E7404C] hover:scale-[1.15] duration-300"
+                              size={21}
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="text-center my-10">
+                <img className="w-[200px] mx-auto" src={notFound} alt="" />
+                <h3 className="text-center mt-5 font-medium text-xl">
+                  You didn't post anything!{" "}
+                  <Link
+                    className="underline font-semibold text-primary underline-offset-[4px]"
+                    to={"/add"}
+                  >
+                    Add a Post!
+                  </Link>
+                </h3>
+              </div>
+            )}
           </TabPanel>
           <TabPanel>
             <div className="overflow-x-auto mt-5 border border-[#e4e4e4] dark:border-gray-500 rounded-lg">

@@ -7,11 +7,20 @@ import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import auth from "../firebase/firebase.config";
+import { useEffect } from "react";
 
 const Register = () => {
+  const { user, loading } = useAuth();
   const { createUser, updateUser, setLoading } = useAuth();
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [navigate, user]);
+
   const notifyError = () => toast.error(`Try Again`);
   const notifySuccess = () => toast.success("Successfully Registered");
   const { register, handleSubmit } = useForm();
@@ -60,6 +69,9 @@ const Register = () => {
         notifyError();
       });
   };
+
+  if (user || loading) return;
+
   return (
     <div className="flex flex-row-reverse w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-transparent lg:max-w-5xl mt-6 mb-10 border dark:border-none">
       <div
