@@ -1,5 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const BeVolunteer = () => {
   const post = useLoaderData();
@@ -10,14 +12,52 @@ const BeVolunteer = () => {
     location,
     volunteers_needed,
     deadline,
+    thumbnail,
   } = post;
 
   const { user } = useAuth();
-  console.log(user);
+
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = async (data) => {
+    const { organizerName, organizerEmail } = data;
+    if (user.email === organizerEmail) {
+      return alert("You can't request on your own post");
+    }
+    const status = "requested";
+    const volunteerName = user.displayName;
+    const volunteerEmail = user.email;
+    const requestData = {
+      thumbnail,
+      post_title,
+      description,
+      category,
+      location,
+      volunteers_needed,
+      deadline,
+      organizerName,
+      organizerEmail,
+      status,
+      volunteerName,
+      volunteerEmail,
+    };
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_URL}/requests`,
+        requestData
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="my-6">
-      <form className="p-4 md:p-5 w-[65%] mx-auto border dark:border-gray-600 rounded-lg">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="p-4 md:p-5 w-[65%] mx-auto border dark:border-gray-600 rounded-lg"
+      >
         <div>
           <h3 className="text-2xl font-bold mb-4">
             <span className="text-primary">Informations</span> At a glance:
@@ -46,23 +86,22 @@ const BeVolunteer = () => {
             <input
               type="text"
               disabled
+              {...register("organizerName")}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 cursor-not-allowed dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="Siam Ahmed"
+              defaultValue={"Siam Ahmed"}
               required
             />
           </div>
           <div className="col-span-1">
-            <label
-              htmlFor="name"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Organizer Email
             </label>
             <input
               type="text"
               disabled
+              {...register("organizerEmail")}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 cursor-not-allowed dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="siamhossain27@gmail.com"
+              defaultValue={"siamhossain27@gmail.com"}
               required
             />
           </div>
