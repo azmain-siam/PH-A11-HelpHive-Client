@@ -4,16 +4,17 @@ import { Link, useLoaderData } from "react-router-dom";
 
 const PostDetails = () => {
   const post = useLoaderData();
+  console.log(post);
 
   return (
     <div className="my-8 flex flex-col lg:flex-row gap-6 items-center">
       {/* <Helmet>
         <title>Details | ArtFusion</title>
       </Helmet> */}
-      <div className="w-full lg:w-[550px] h-[240px] md:h-[350px] lg:h-[450px] rounded-xl overflow-hidden cursor-default">
+      <div className="w-full bg-slate-200 lg:w-[550px] h-[240px] md:h-[350px] lg:h-[450px] rounded-xl overflow-hidden cursor-default">
         <img
-          className="object-cover w-full h-full hover:scale-105 duration-700"
-          src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?q=80&w=1474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          className="object-cover w-full object-center h-full hover:scale-105 duration-700"
+          src={post.thumbnail}
         />
       </div>
       <div className="w-full md:px-0 md:flex-1">
@@ -23,20 +24,20 @@ const PostDetails = () => {
               <div className="h-10 md:h-14 w-10 md:w-14 rounded-full bg-slate-400  overflow-hidden">
                 <img
                   className="w-full h-full"
-                  src="https://i.pravatar.cc/32"
+                  src={post.organizerImage}
                   alt=""
                 />
               </div>
               <div>
-                <div className="md:text-lg font-bold">Siam Ahmed</div>
+                <div className="md:text-lg font-bold">{post.organizerName}</div>
                 <div className="text-sm font-medium text-neutral-600 dark:text-gray-400">
-                  siamhossain27@gmail.com
+                  {post.organizerEmail}
                 </div>
               </div>
             </div>
             <div className="flex items-center space-x-8">
               <button className="rounded-2xl border dark:border-gray-600 bg-neutral-100 dark:bg-transparent text-xs md:text-sm px-3 py-1 font-semibold dark:text-gray-200 cursor-default">
-                Deadline: {post.deadline}
+                Deadline: {new Date(post.deadline).toLocaleDateString()}
               </button>
             </div>
           </div>

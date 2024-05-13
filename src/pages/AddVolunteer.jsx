@@ -1,215 +1,209 @@
 import useAuth from "../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
-
-import "react-datepicker/dist/react-datepicker.css";
-
 import { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AddVolunteer = () => {
   const { user } = useAuth();
   const [startDate, setStartDate] = useState(new Date());
+  const { register, handleSubmit, reset } = useForm();
+  const onSubmit = async (data) => {
+    const organizerName = user.displayName;
+    const organizerEmail = user.email;
+    const organizerImage = user.photoURL;
 
-  const {
-    register,
-    // handleSubmit,
-    // reset
-  } = useForm();
+    const deadline = startDate;
+    const {
+      post_title,
+      description,
+      category,
+      location,
+      volunteers_need,
+      thumbnail,
+    } = data;
+
+    const volunteers_needed = parseInt(volunteers_need);
+    const postData = {
+      organizerName,
+      organizerEmail,
+      organizerImage,
+      deadline,
+      post_title,
+      description,
+      category,
+      location,
+      volunteers_needed,
+      thumbnail,
+    };
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_URL}/posts`,
+        postData
+      );
+      console.log(data);
+      return toast.success("Posted Successfully!");
+    } catch (error) {
+      console.log(error);
+    }
+    reset();
+  };
 
   return (
-    <div className="mb-5 mt-10 max-w-7xl w-[95%] md:w-[93%] mx-auto">
-      {/* <Helmet>
-        <title>Add Craft | ArtFusion</title>
-      </Helmet> */}
-      <div className="mb-10 md:mb-14">
-        <h3 className="text-2xl text-center md:text-4xl font-bold mb-8">
-          <span className="text-primary">Add</span> Volunteer Post
-        </h3>
-        <form
-          // onSubmit={handleSubmit(handleAdd)}
-          className="card-body p-5 md:px-14 md:py-8 w-full border dark:border-gray-700 rounded-xl"
-        >
-          <div className="grid grid-cols-2 gap-10">
-            <div className="form-control ">
-              <label className="label">
-                <span className="label-text font-semibold text-base">
-                  Username
-                </span>
-              </label>
-              <input
-                type="text"
-                placeholder="Your Name"
-                defaultValue={user.displayName}
-                className="input focus:outline-none focus:border bg-[#EEEDEE]"
-                required
-                disabled
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold text-base">
-                  Email
-                </span>
-              </label>
-              <input
-                type="text"
-                placeholder="Your Email"
-                defaultValue={user.email}
-                disabled
-                className="input focus:outline-none focus:border bg-[#EEEDEE]"
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-10">
-            <div className="form-control ">
-              <label className="label">
-                <span className="label-text font-semibold text-base">
-                  Post Title
-                </span>
-              </label>
-              <input
-                type="text"
-                placeholder="Post Title"
-                className="input focus:outline-none focus:border bg-[#EEEDEE]"
-                required
-                {...register("postTitle")}
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold text-base">
-                  Location
-                </span>
-              </label>
-              <input
-                type="text"
-                {...register("location")}
-                placeholder="Location"
-                required
-                className="input focus:outline-none focus:border bg-[#EEEDEE]"
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-10">
-            <div className="form-control ">
-              <label className="label">
-                <span className="label-text font-semibold text-base">
-                  Category
-                </span>
-              </label>
-              <select
-                {...register("category")}
-                required
-                className="select font-medium text-base *:font-medium focus:outline-none focus:border bg-[#EEEDEE]"
-              >
-                <option disabled selected>
-                  Select a Category
-                </option>
-                <option>Healthcare</option>
-                <option>Education</option>
-                <option>Social Service</option>
-                <option>Animal Welfare</option>
-              </select>
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold text-base">
-                  Number of Volunteers Needed
-                </span>
-              </label>
-              <input
-                type="number"
-                {...register("volunteer_needed")}
-                placeholder="Number of Volunteer"
-                required
-                className="input focus:outline-none focus:border bg-[#EEEDEE]"
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-10">
-            <div className="form-control ">
-              <label className="label">
-                <span className="label-text font-semibold text-base">
-                  Thumbnail URL
-                </span>
-              </label>
-              <input
-                type="text"
-                placeholder="Image URL"
-                {...register("photoURL")}
-                className="input focus:outline-none focus:border bg-[#EEEDEE]"
-                required
-              />
-            </div>
+    <div className="my-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="p-4 md:p-5 w-[65%] mx-auto border dark:border-gray-600 rounded-lg"
+      >
+        <div>
+          <h3 className="text-2xl font-bold mb-4">
+            <span className="text-primary">Add</span> Voluteer Post:
+          </h3>
+        </div>
 
-            {/* Date Picker */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold text-base">
-                  Deadline
-                </span>
-              </label>
-              <div className="input flex gap-1 items-center focus:outline-none focus:border bg-[#EEEDEE] w-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="1.2em"
-                  height="1.2em"
-                  viewBox="0 0 48 48"
-                >
-                  <mask id="ipSApplication0">
-                    <g
-                      fill="none"
-                      stroke="#fff"
-                      strokeLinejoin="round"
-                      strokeWidth="4"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        d="M40.04 22v20h-32V22"
-                      ></path>
-                      <path
-                        fill="#fff"
-                        d="M5.842 13.777C4.312 17.737 7.263 22 11.51 22c3.314 0 6.019-2.686 6.019-6a6 6 0 0 0 6 6h1.018a6 6 0 0 0 6-6c0 3.314 2.706 6 6.02 6c4.248 0 7.201-4.265 5.67-8.228L39.234 6H8.845l-3.003 7.777Z"
-                      ></path>
-                    </g>
-                  </mask>
-                  <path
-                    fill="currentColor"
-                    d="M0 0h48v48H0z"
-                    mask="url(#ipSApplication0)"
-                  ></path>
-                </svg>
-                <DatePicker
-                  className="w-full"
-                  {...register("deadline")}
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                />
-              </div>
+        <div className="grid gap-4 mb-4 grid-cols-2">
+          <div className="col-span-2 sm:col-span-1">
+            <label
+              htmlFor="category"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Organizer Name
+            </label>
+            <input
+              type="text"
+              disabled
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 cursor-not-allowed dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder={user.displayName}
+            />
+          </div>
+          <div className="col-span-2 sm:col-span-1">
+            <label
+              htmlFor="category"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Organizer Email
+            </label>
+            <input
+              type="email"
+              disabled
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 cursor-not-allowed dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder={user.email}
+            />
+          </div>
+          <div className="col-span-2">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Post Title
+            </label>
+            <input
+              type="text"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Enter Post Title"
+              required
+              {...register("post_title")}
+            />
+          </div>
+
+          <div className="col-span-1">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Location
+            </label>
+            <input
+              type="text"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400  dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Enter Location"
+              required
+              {...register("location")}
+            />
+          </div>
+
+          <div className="col-span-2 sm:col-span-1">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Number of Voluteer Needed
+            </label>
+            <input
+              type="number"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Number of Volunteers you need"
+              required
+              {...register("volunteers_need")}
+            />
+          </div>
+          <div className="col-span-2 ">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Thumbnail
+            </label>
+            <input
+              type="text"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Thumbnail Image URL"
+              {...register("thumbnail")}
+            />
+          </div>
+          <div className="col-span-2 sm:col-span-1">
+            <label
+              htmlFor="category"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Category
+            </label>
+            <select
+              required
+              {...register("category")}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 font-medium *:font-medium dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            >
+              <option selected disabled>
+                Select category
+              </option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Education">Education</option>
+              <option value="Social Service">Social Service</option>
+              <option value="Animal Welfare">Animal Welfare</option>
+            </select>
+          </div>
+          <div className="col-span-2 sm:col-span-1">
+            <label
+              htmlFor="category"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Deadline
+            </label>
+            <div>
+              <DatePicker
+                wrapperClassName="w-full"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block  p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 w-full font-medium *:font-medium dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                required
+              />
             </div>
           </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-semibold text-base">
-                Description
-              </span>
+          <div className="col-span-2">
+            <label
+              htmlFor="description"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Product Description
             </label>
             <textarea
               rows="3"
-              {...register("description")}
-              placeholder="Write a Description..."
+              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Write Description"
               required
-              className="textarea focus:outline-none focus:border bg-[#EEEDEE] text-base"
+              {...register("description")}
             ></textarea>
           </div>
-
-          <div className="form-control mt-6">
-            <button className="btn bg-primary border-primary hover:border-[#28282B] hover:text-[#28282B] text-white uppercase transition-all hover:bg-white duration-300 hover:scale-105">
-              Post
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            className="btn mt-3 px-12 bg-primary border-primary hover:border-[#28282B] hover:text-[#28282B] text-white uppercase transition-all hover:bg-white duration-300 hover:scale-105"
+          >
+            Add post
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

@@ -7,8 +7,7 @@ const CardsOfVolunteer = ({ post }) => {
       <figure>
         <img
           className="object-cover object-center w-full h-56"
-          src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-          alt="avatar"
+          src={post.thumbnail}
         />
       </figure>
       <div className="card-body">
@@ -21,12 +20,12 @@ const CardsOfVolunteer = ({ post }) => {
           </div>
           <div className="flex items-center text-gray-700 dark:text-gray-200">
             <h1 className="text-base font-semibold">
-              Deadline: {post.deadline}
+              Deadline: {new Date(post.deadline).toLocaleDateString()}
             </h1>
           </div>
         </div>
         <div className="card-actions justify-end">
-          <Link  to={`/post/details/${post._id}`}>
+          <Link to={`/post/details/${post._id}`}>
             <button className="btn px-6 w-full mt-3 bg-black border-black hover:border-[#28282B] dark:bg-primary dark:border-primary dark:hover:bg-transparent  dark:hover:text-white hover:text-[#28282B] text-white uppercase transition-all hover:bg-white duration-300 hover:scale-105">
               View Details
             </button>

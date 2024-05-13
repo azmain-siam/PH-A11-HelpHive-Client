@@ -2,6 +2,7 @@ import { useLoaderData } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const BeVolunteer = () => {
   const post = useLoaderData();
@@ -12,6 +13,8 @@ const BeVolunteer = () => {
     location,
     volunteers_needed,
     deadline,
+    organizerEmail,
+    organizerName,
     thumbnail,
   } = post;
 
@@ -19,11 +22,11 @@ const BeVolunteer = () => {
 
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = async (data) => {
-    const { organizerName, organizerEmail } = data;
+  const onSubmit = async () => {
     if (user.email === organizerEmail) {
-      return alert("You can't request on your own post");
+      return toast.error("You can't request on your own post");
     }
+
     const status = "requested";
     const volunteerName = user.displayName;
     const volunteerEmail = user.email;
@@ -72,7 +75,7 @@ const BeVolunteer = () => {
               type="text"
               disabled
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 cursor-not-allowed dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder={post_title}
+              defaultValue={post_title}
               required=""
             />
           </div>
@@ -88,8 +91,7 @@ const BeVolunteer = () => {
               disabled
               {...register("organizerName")}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 cursor-not-allowed dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              defaultValue={"Siam Ahmed"}
-              required
+              defaultValue={organizerName}
             />
           </div>
           <div className="col-span-1">
@@ -101,8 +103,7 @@ const BeVolunteer = () => {
               disabled
               {...register("organizerEmail")}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 cursor-not-allowed dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              defaultValue={"siamhossain27@gmail.com"}
-              required
+              defaultValue={organizerEmail}
             />
           </div>
           <div className="col-span-2 sm:col-span-1">
@@ -116,8 +117,7 @@ const BeVolunteer = () => {
               type="text"
               disabled
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 cursor-not-allowed dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder={user.displayName}
-              required=""
+              defaultValue={user.displayName}
             />
           </div>
           <div className="col-span-2 sm:col-span-1">
@@ -131,8 +131,7 @@ const BeVolunteer = () => {
               type="email"
               disabled
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 cursor-not-allowed dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder={user.email}
-              required=""
+              defaultValue={user.email}
             />
           </div>
 
@@ -144,8 +143,7 @@ const BeVolunteer = () => {
               type="text"
               disabled
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 cursor-not-allowed dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder={location}
-              required=""
+              defaultValue={location}
             />
           </div>
           <div className="col-span-2 sm:col-span-1">
@@ -156,8 +154,7 @@ const BeVolunteer = () => {
               type="number"
               disabled
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 cursor-not-allowed dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder={volunteers_needed}
-              required=""
+              defaultValue={volunteers_needed}
             />
           </div>
           <div className="col-span-2 sm:col-span-1">
@@ -172,7 +169,6 @@ const BeVolunteer = () => {
               disabled
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 cursor-not-allowed dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               placeholder={category}
-              required=""
             />
           </div>
           <div className="col-span-2 sm:col-span-1">
@@ -183,11 +179,10 @@ const BeVolunteer = () => {
               Deadline
             </label>
             <input
-              type="number"
+              type="text"
               disabled
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 cursor-not-allowed block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder={deadline}
-              required=""
+              placeholder={new Date(deadline).toLocaleDateString()}
             />
           </div>
           <div className="col-span-2">
@@ -202,7 +197,7 @@ const BeVolunteer = () => {
               disabled
               rows="4"
               className="block cursor-not-allowed p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder={description}
+              defaultValue={description}
             ></textarea>
           </div>
         </div>
