@@ -68,12 +68,14 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/apply",
+        path: "/apply/:id",
         element: (
           <PrivateRoute>
             <BeVolunteer />
           </PrivateRoute>
         ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_URL}/posts/${params.id}`),
       },
     ],
   },
