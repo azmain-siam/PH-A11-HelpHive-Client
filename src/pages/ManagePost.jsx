@@ -1,7 +1,7 @@
 import { FaRegPenToSquare } from "react-icons/fa6";
 import { ImCancelCircle } from "react-icons/im";
 import { LuTrash2 } from "react-icons/lu";
-
+import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -14,6 +14,7 @@ const ManagePost = () => {
   const { user } = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -25,9 +26,36 @@ const ManagePost = () => {
     };
     getData();
     setLoading(false);
-  }, [user]);
+  }, [user, refresh]);
 
-  console.log(posts);
+  const handleDelete = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`${import.meta.env.VITE_URL}/post/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount > 0) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+              });
+            }
+            setRefresh(!refresh);
+          });
+      }
+    });
+  };
 
   if (loading) {
     return (
@@ -92,13 +120,16 @@ const ManagePost = () => {
                             size={19}
                           />
                         </Link>
-                        <Link className="col-span-1 ">
+                        <button
+                          onClick={() => handleDelete(post._id)}
+                          className="col-span-1 "
+                        >
                           <LuTrash2
                             title="Delete"
                             className="text-[#E7404C] hover:scale-[1.15] duration-300"
                             size={21}
                           />
-                        </Link>
+                        </button>
                       </td>
                     </tr>
                   ))}
