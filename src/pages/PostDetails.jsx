@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import { MdGroup } from "react-icons/md";
 
 import { Link, useLoaderData } from "react-router-dom";
@@ -8,9 +9,9 @@ const PostDetails = () => {
 
   return (
     <div className="my-8 flex flex-col lg:flex-row gap-6 items-center">
-      {/* <Helmet>
-        <title>Details | ArtFusion</title>
-      </Helmet> */}
+      <Helmet>
+        <title>Details | HelpHive</title>
+      </Helmet>
       <div className="w-full bg-slate-200 lg:w-[550px] h-[240px] md:h-[350px] lg:h-[450px] rounded-xl overflow-hidden cursor-default">
         <img
           className="object-cover w-full object-center h-full hover:scale-105 duration-700"

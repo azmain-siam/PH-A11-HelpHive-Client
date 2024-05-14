@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const AddVolunteer = () => {
   const { user } = useAuth();
@@ -58,6 +59,9 @@ const AddVolunteer = () => {
 
   return (
     <div className="my-6">
+      <Helmet>
+        <title>Add Volunteer | HelpHive</title>
+      </Helmet>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="p-4 md:p-5 w-[65%] mx-auto border dark:border-gray-600 rounded-lg"

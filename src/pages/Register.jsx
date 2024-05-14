@@ -9,6 +9,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import { useEffect } from "react";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 
 const Register = () => {
   const { user } = useAuth();
@@ -100,6 +101,9 @@ const Register = () => {
 
   return (
     <div className="flex flex-row-reverse w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-transparent lg:max-w-5xl mt-6 mb-10 border dark:border-none">
+      <Helmet>
+        <title>Register | HelpHive</title>
+      </Helmet>
       <div
         className="hidden bg-cover lg:block lg:w-1/2"
         style={{

@@ -3,6 +3,7 @@ import useAuth from "../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet";
 
 const BeVolunteer = () => {
   const post = useLoaderData();
@@ -27,6 +28,12 @@ const BeVolunteer = () => {
   const onSubmit = async () => {
     if (user.email === organizerEmail) {
       return toast.error("You can't request on your own post");
+    }
+
+    if (volunteers_needed < 1) {
+      return toast.error(
+        "The owner of the post no longer requires any volunteers."
+      );
     }
 
     const status = "requested";
@@ -64,6 +71,9 @@ const BeVolunteer = () => {
 
   return (
     <div className="my-6">
+      <Helmet>
+        <title>Apply | HelpHive</title>
+      </Helmet>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="p-4 md:p-5 w-[65%] mx-auto border dark:border-gray-600 rounded-lg"

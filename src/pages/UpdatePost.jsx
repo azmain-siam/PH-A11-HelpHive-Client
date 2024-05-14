@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 
 const UpdatePost = () => {
   const post = useLoaderData();
@@ -59,6 +60,9 @@ const UpdatePost = () => {
 
   return (
     <div className="my-6">
+      <Helmet>
+        <title>Update | HelpHive</title>
+      </Helmet>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="p-4 md:p-5 w-[65%] mx-auto border dark:border-gray-600 rounded-lg"

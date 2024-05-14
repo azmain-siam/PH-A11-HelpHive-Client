@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Bars } from "react-loader-spinner";
 import notFound from "../assets/no-data.svg";
+import { Helmet } from "react-helmet";
 
 const ManagePost = () => {
   const { user } = useAuth();
@@ -106,6 +107,9 @@ const ManagePost = () => {
   if (loading) {
     return (
       <div className="flex h-full w-full justify-center items-center pt-20">
+        <Helmet>
+          <title>Manage Post | HelpHive</title>
+        </Helmet>
         <Bars
           height="80"
           width="80"
@@ -121,9 +125,9 @@ const ManagePost = () => {
 
   return (
     <div className="my-5 max-w-7xl w-[95%] md:w-[93%] mx-auto mt-10 md:mt-12">
-      {/* <Helmet>
-        <title>All Crafts | ArtFusion</title>
-      </Helmet> */}
+      <Helmet>
+        <title>Manage Post | ArtFusion</title>
+      </Helmet>
       <div className="text-center mb-10 md:mb-12">
         <h3 className="text-2xl md:text-4xl font-bold mb-3">
           <span className="text-primary">Manage</span> My Posts
@@ -204,6 +208,10 @@ const ManagePost = () => {
             )}
           </TabPanel>
           <TabPanel>
+            <Helmet>
+              <title>Requests | HelpHive</title>
+              <meta content="Nested component" />
+            </Helmet>
             {requests.length > 0 ? (
               <div
                 id="requests"

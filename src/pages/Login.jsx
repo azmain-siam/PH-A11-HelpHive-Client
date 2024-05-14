@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import auth from "../firebase/firebase.config";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 
 const Login = () => {
   const { user, loading } = useAuth();
@@ -109,6 +110,9 @@ const Login = () => {
   if (user || loading) return;
   return (
     <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-transparent lg:max-w-5xl mt-6 mb-10 border dark:border-none">
+      <Helmet>
+        <title>Login | HelpHive</title>
+      </Helmet>
       <div
         className="hidden bg-cover lg:block lg:w-1/2"
         style={{
