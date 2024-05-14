@@ -15,7 +15,6 @@ import notFound from "../assets/no-data.svg";
 const ManagePost = () => {
   const { user } = useAuth();
   const [posts, setPosts] = useState([]);
-  console.log(posts);
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
@@ -24,7 +23,8 @@ const ManagePost = () => {
     setLoading(true);
     const getData = async () => {
       const { data } = await axios(
-        `${import.meta.env.VITE_URL}/post/${user.email}`
+        `${import.meta.env.VITE_URL}/post/${user.email}`,
+        { withCredentials: true }
       );
       setPosts(data);
       setLoading(false);

@@ -1,6 +1,6 @@
 import logo from "/logo.png";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
-
+import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
@@ -22,46 +22,88 @@ const Login = () => {
     }
   }, [navigate, user]);
   const location = useLocation();
-  const notifyError = () => toast.error(`Please Check & Try Again`);
-  const notifySuccess = () => toast.success("Successfully Logged In");
   const [showPass, setShowPass] = useState(false);
 
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const { email, password } = data;
-    signinUser(email, password)
-      .then((result) => {
-        if (result.user) {
-          navigate(location?.state || "/");
-          notifySuccess();
-        }
-      })
-      .catch((error) => {
-        if (error.message === "Firebase: Error (auth/invalid-credential).") {
-          setError("Email and Password Does Not Match");
-        }
-        notifyError();
-      });
+    // signinUser(email, password)
+    //   .then((result) => {
+    //     if (result.user) {
+    //       navigate(location?.state || "/");
+    //       notifySuccess();
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     if (error.message === "Firebase: Error (auth/invalid-credential).") {
+    //       setError("Email and Password Does Not Match");
+    //     }
+    //     notifyError();
+    //   });
+    try {
+      // 1. google sign in from firebase
+      const result = await signinUser(email, password);
+      console.log(result.user);
+
+      //2. get token from server using email
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        { withCredentials: true }
+      );
+      console.log(data);
+      toast.success("Successfully Logged In");
+      navigate(location?.state || "/", { replace: true });
+    } catch (err) {
+      if (error.message === "Firebase: Error (auth/invalid-credential).") {
+        setError("Email and Password Does Not Match");
+      }
+      console.log(err);
+      toast.error("Please Check & Try Again");
+    }
   };
 
   const googleProvider = new GoogleAuthProvider();
 
-  const googleSignin = () => {
+  const googleSignin = async () => {
     setLoading(true);
-    signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        if (result.user) {
-          navigate(location?.state || "/");
-          notifySuccess();
-        }
-      })
-      .catch((error) => {
-        if (error.message === "Firebase: Error (auth/invalid-credential).") {
-          setError("Email and Password Does Not Match");
-        }
-        notifyError();
-      });
+    // signInWithPopup(auth, googleProvider)
+    //   .then((result) => {
+    //     if (result.user) {
+    //       navigate(location?.state || "/");
+    //       notifySuccess();
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     if (error.message === "Firebase: Error (auth/invalid-credential).") {
+    //       setError("Email and Password Does Not Match");
+    //     }
+    //     notifyError();
+    //   });
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log(result.user);
+
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        { withCredentials: true }
+      );
+      console.log(data);
+      toast.success("Signin Successful");
+      navigate(location?.state || "/", { replace: true });
+    } catch (err) {
+      console.log(err);
+      if (error.message === "Firebase: Error (auth/invalid-credential).") {
+        setError("Email and Password Does Not Match");
+      }
+      toast.error(err?.message);
+    }
   };
 
   if (user || loading) return;

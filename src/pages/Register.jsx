@@ -8,9 +8,10 @@ import toast from "react-hot-toast";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import { useEffect } from "react";
+import axios from "axios";
 
 const Register = () => {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const { createUser, updateUser, setLoading } = useAuth();
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -21,13 +22,11 @@ const Register = () => {
     }
   }, [navigate, user]);
 
-  const notifyError = () => toast.error(`Try Again`);
-  const notifySuccess = () => toast.success("Successfully Registered");
   const { register, handleSubmit } = useForm();
   const [showPass, setShowPass] = useState(false);
   const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])/;
 
-  const handleRegister = (data) => {
+  const handleRegister = async (data) => {
     const { email, password, image, fullName } = data;
     if (password.length < 6) {
       setError("Password must have at least 6 charecters");
@@ -39,38 +38,65 @@ const Register = () => {
       );
       return;
     }
-    createUser(email, password)
-      .then(() => {
-        updateUser(fullName, image).then(() => {
-          navigate(location?.state || "/");
-          notifySuccess();
-        });
-      })
-      .catch((error) => {
-        setError(error);
-        notifyError();
-      });
+    // createUser(email, password)
+    //   .then(() => {
+    //     updateUser(fullName, image).then(() => {
+    //       navigate(location?.state || "/");
+    //       notifySuccess();
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     setError(error);
+    //     notifyError();
+    //   });
+    try {
+      // 1. google sign in from firebase
+      const result = await createUser(email, password);
+      console.log(result.user);
+      await updateUser(fullName, image);
+
+      //2. get token from server using email
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        { withCredentials: true }
+      );
+      console.log(data);
+      toast.success("Successfully Registered");
+      navigate(location?.state || "/", { replace: true });
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.message);
+    }
   };
   const googleProvider = new GoogleAuthProvider();
 
-  const googleSignin = () => {
+  const googleSignin = async () => {
     setLoading(true);
-    signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        if (result.user) {
-          navigate(location?.state || "/");
-          notifySuccess();
-        }
-      })
-      .catch((error) => {
-        if (error.message === "Firebase: Error (auth/invalid-credential).") {
-          setError("Email and Password Does Not Match");
-        }
-        notifyError();
-      });
-  };
+    try {
+      // 1. google sign in from firebase
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log(result.user);
 
-  if (user || loading) return;
+      //2. get token from server using email
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        { withCredentials: true }
+      );
+      console.log(data);
+      toast.success("Signin Successful");
+      navigate(location?.state || "/", { replace: true });
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.message);
+    }
+  };
 
   return (
     <div className="flex flex-row-reverse w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-transparent lg:max-w-5xl mt-6 mb-10 border dark:border-none">

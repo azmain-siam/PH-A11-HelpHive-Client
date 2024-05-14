@@ -63,7 +63,7 @@ const router = createBrowserRouter([
         path: "/posts/update/:id",
         element: (
           <PrivateRoute>
-            <UpdatePost/>
+            <UpdatePost />
           </PrivateRoute>
         ),
         loader: ({ params }) =>
