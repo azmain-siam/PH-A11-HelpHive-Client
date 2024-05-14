@@ -36,7 +36,8 @@ const ManagePost = () => {
     setLoading(true);
     const getRequestsData = async () => {
       const { data } = await axios(
-        `${import.meta.env.VITE_URL}/requests/${user.email}`
+        `${import.meta.env.VITE_URL}/requests/${user.email}`,
+        { withCredentials: true }
       );
       setRequests(data);
       setLoading(false);

@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 const BeVolunteer = () => {
   const post = useLoaderData();
   const {
+    _id,
     post_title,
     description,
     category,
@@ -31,7 +32,9 @@ const BeVolunteer = () => {
     const status = "requested";
     const volunteerName = user.displayName;
     const volunteerEmail = user.email;
+    const requestId = _id;
     const requestData = {
+      requestId,
       thumbnail,
       post_title,
       description,
@@ -48,7 +51,8 @@ const BeVolunteer = () => {
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_URL}/requests`,
-        requestData
+        requestData,
+        { withCredentials: true }
       );
       console.log(data);
       navigate("/manage-post");

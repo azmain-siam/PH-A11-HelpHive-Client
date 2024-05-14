@@ -44,7 +44,8 @@ const AddVolunteer = () => {
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_URL}/posts`,
-        postData
+        postData,
+        { withCredentials: true }
       );
       console.log(data);
       reset();

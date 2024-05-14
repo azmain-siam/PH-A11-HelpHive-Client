@@ -44,7 +44,8 @@ const UpdatePost = () => {
     try {
       const { data } = await axios.put(
         `${import.meta.env.VITE_URL}/posts/${post._id}`,
-        updatedPostData
+        updatedPostData,
+        { withCredentials: true }
       );
       console.log(data);
       reset();
