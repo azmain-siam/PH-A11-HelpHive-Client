@@ -51,10 +51,10 @@ const BeVolunteer = () => {
         requestData
       );
       console.log(data);
-      navigate('/manage-post')
+      navigate("/manage-post");
       return toast.success("Requested Successfully!");
     } catch (error) {
-      console.log(error);
+      return toast.error(error.response.data);
     }
   };
 

@@ -1,20 +1,40 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useEffect, useState } from "react";
 import { Bars } from "react-loader-spinner";
 import CardsOfVolunteer from "../components/CardsOfVolunteer";
+import axios from "axios";
 
 const NeedVolunteer = () => {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState([]);
+  const [search, setSearch] = useState("");
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fetch(`${import.meta.env.VITE_URL}/posts?&search=${search}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setPosts(data);
+  //       setLoading(false);
+  //     });
+  // }, [search]);
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const searchText = e.target.search.value;
+    setSearch(searchText);
+  };
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${import.meta.env.VITE_URL}/posts`)
-      .then((res) => res.json())
-      .then((data) => {
-        setPosts(data);
-        setLoading(false);
-      });
-  }, []);
+    const getData = async () => {
+      const { data } = await axios(
+        `${import.meta.env.VITE_URL}/posts?&search=${search}`
+      );
+      setPosts(data);
+      setLoading(false);
+    };
+    getData();
+  }, [search]);
 
   if (loading) {
     return (
@@ -38,7 +58,7 @@ const NeedVolunteer = () => {
         <span className="text-primary">Need</span> Volunteer
       </h3> */}
       <div className="flex justify-center my-7">
-        <form className="max-w-md w-full">
+        <form onSubmit={handleSearch} className="max-w-md w-full">
           <label
             htmlFor="default-search"
             className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -66,9 +86,10 @@ const NeedVolunteer = () => {
             <input
               type="search"
               id="default-search"
+              defaultValue={search}
               className="block w-full focus:outline-none focus:border-black p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-xl bg-gray-50  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  "
               placeholder="Search here..."
-              required
+              name="search"
             />
             <button
               type="submit"
@@ -79,10 +100,19 @@ const NeedVolunteer = () => {
           </div>
         </form>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-2">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-2 text-center">
         {posts.map((post) => (
           <CardsOfVolunteer key={post._id} post={post} />
         ))}
+        {/* {posts.length < 1 && (
+          <div className="text-center my-14">
+            <img className="w-[200px] mx-auto" src={notFound} alt="" />
+            <h3 className="text-center mt-5 font-medium text-xl">
+              Can't Find Anything!
+            </h3>
+          </div>
+        )} */}
       </div>
     </div>
   );
