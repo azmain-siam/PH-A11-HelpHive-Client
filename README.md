@@ -24,4 +24,4 @@ Thank you for visiting **HelpHive**! We hope you enjoy exploring our website and
 - **sweetalert2**
 - **swiper**
 
-**Live Site**: https://helphive.vercel.app
+**Live Site**: https://a11-helphive.web.app
