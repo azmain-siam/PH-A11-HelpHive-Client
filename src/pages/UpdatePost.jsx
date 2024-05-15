@@ -44,7 +44,7 @@ const UpdatePost = () => {
     };
     try {
       const { data } = await axios.put(
-        `${import.meta.env.VITE_URL}/posts/${post._id}`,
+        `http://localhost:5000/posts/${post._id}`,
         updatedPostData,
         { withCredentials: true }
       );

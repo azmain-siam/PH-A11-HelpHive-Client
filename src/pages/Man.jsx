@@ -24,10 +24,9 @@ const ManagePost = () => {
   useEffect(() => {
     setLoading(true);
     const getData = async () => {
-      const { data } = await axios(
-        `${import.meta.env.VITE_URL}/post/${user.email}`,
-        { withCredentials: true }
-      );
+      const { data } = await axios(`http://localhost:5000/post/${user.email}`, {
+        withCredentials: true,
+      });
       setPosts(data);
       setLoading(false);
     };
@@ -38,7 +37,7 @@ const ManagePost = () => {
     setLoading(true);
     const getRequestsData = async () => {
       const { data } = await axios(
-        `${import.meta.env.VITE_URL}/requests/${user.email}`,
+        `http://localhost:5000/requests/${user.email}`,
         { withCredentials: true }
       );
       setRequests(data);
@@ -58,7 +57,7 @@ const ManagePost = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`${import.meta.env.VITE_URL}/post/${id}`, {
+        fetch(`http://localhost:5000/post/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -87,7 +86,7 @@ const ManagePost = () => {
       confirmButtonText: "Yes, cancel request!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`${import.meta.env.VITE_URL}/request/${id}`, {
+        fetch(`http://localhost:5000/request/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        loader: () => fetch(`${import.meta.env.VITE_URL}/posts`),
+        loader: () => fetch(`http://localhost:5000/posts`),
       },
       {
         path: "/login",
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_URL}/posts/${params.id}`),
+          fetch(`http://localhost:5000/posts/${params.id}`),
       },
       {
         path: "/need-volunteer",
@@ -69,7 +69,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_URL}/posts/${params.id}`),
+          fetch(`http://localhost:5000/posts/${params.id}`),
       },
       {
         path: "/apply/:id",
@@ -79,7 +79,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_URL}/posts/${params.id}`),
+          fetch(`http://localhost:5000/posts/${params.id}`),
       },
     ],
   },

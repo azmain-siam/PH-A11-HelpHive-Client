@@ -27,7 +27,7 @@ const NeedVolunteer = () => {
     setLoading(true);
     const getData = async () => {
       const { data } = await axios(
-        `${import.meta.env.VITE_URL}/posts?search=${search}`
+        `http://localhost:5000/posts?search=${search}`
       );
       setPosts(data);
       setLoading(false);

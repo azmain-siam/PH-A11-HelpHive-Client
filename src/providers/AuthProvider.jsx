@@ -41,7 +41,7 @@ const AuthProvider = ({ children }) => {
   // Logout
   const logout = async () => {
     setUser(null);
-    const { data } = await axios(`${import.meta.env.VITE_URL}/logout`, {
+    const { data } = await axios(`http://localhost:5000/logout`, {
       withCredentials: true,
     });
     console.log(data);

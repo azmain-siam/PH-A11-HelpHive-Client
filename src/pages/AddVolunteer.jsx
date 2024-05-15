@@ -44,7 +44,7 @@ const AddVolunteer = () => {
     };
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_URL}/posts`,
+        `http://localhost:5000/posts`,
         postData,
         { withCredentials: true }
       );

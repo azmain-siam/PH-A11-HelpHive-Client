@@ -59,7 +59,7 @@ const Register = () => {
 
       //2. get token from server using email
       const { data } = await axios.post(
-        `${import.meta.env.VITE_URL}/jwt`,
+        `http://localhost:5000/jwt`,
         {
           email: result?.user?.email,
         },
@@ -85,7 +85,7 @@ const Register = () => {
 
       //2. get token from server using email
       const { data } = await axios.post(
-        `${import.meta.env.VITE_URL}/jwt`,
+        `http://localhost:5000/jwt`,
         {
           email: result?.user?.email,
         },
