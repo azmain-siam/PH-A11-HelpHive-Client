@@ -54,8 +54,8 @@ const NeedVolunteer = () => {
   }
 
   return (
-    <div className="mt-5">
-      <div className="flex justify-between my-7">
+    <div className="my-5">
+      <div className="flex gap-4 flex-col md:flex-row justify-between my-7 md:px-4">
         <form onSubmit={handleSearch} className="max-w-md w-full">
           <label
             htmlFor="default-search"
@@ -99,7 +99,7 @@ const NeedVolunteer = () => {
         </form>
 
         {/* Layout Toggle */}
-        <label className="themeSwitcherTwo border shadow-card relative inline-flex cursor-pointer select-none items-center justify-center border-gray-300 rounded-xl  dark:bg-gray-700 dark:border-gray-600 dark:text-white p-2">
+        <label className=" border w-fit shadow-card relative inline-flex cursor-pointer select-none items-center justify-center border-gray-300 rounded-xl  dark:bg-gray-700 dark:border-gray-600 dark:text-white p-2">
           <input
             type="checkbox"
             className="sr-only"
@@ -107,24 +107,22 @@ const NeedVolunteer = () => {
             onChange={handleCheckboxChange}
           />
           <span
-            className={`flex gap-2 items-center rounded py-2 px-[18px] font-medium ${
+            className={`flex gap-2 items-center rounded py-2 px-[25px] font-medium ${
               !isChecked
                 ? "text-primary bg-[#f4f7ff] dark:bg-gray-700"
                 : "text-body-color"
             }`}
           >
             <BsFillGrid3X3GapFill />
-            Grid
           </span>
           <span
-            className={`flex gap-2 items-center rounded py-2 px-[18px] font-medium ${
+            className={`flex gap-2 items-center rounded py-2 px-[25px] font-medium ${
               isChecked
                 ? "text-primary bg-[#f4f7ff] dark:bg-gray-700"
                 : "text-body-color"
             }`}
           >
             <FaThList />
-            List
           </span>
         </label>
       </div>
@@ -134,14 +132,6 @@ const NeedVolunteer = () => {
           {posts.map((post) => (
             <CardsOfVolunteer key={post._id} post={post} />
           ))}
-          {/* {posts.length < 1 && (
-          <div className="text-center my-14">
-            <img className="w-[200px] mx-auto" src={notFound} alt="" />
-            <h3 className="text-center mt-5 font-medium text-xl">
-              Can't Find Anything!
-            </h3>
-          </div>
-        )} */}
         </div>
       ) : (
         <div className="overflow-x-auto mt-7 border border-[#e4e4e4] dark:border-gray-500 rounded-lg">
