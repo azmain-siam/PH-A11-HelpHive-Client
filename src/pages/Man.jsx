@@ -24,9 +24,12 @@ const ManagePost = () => {
   useEffect(() => {
     setLoading(true);
     const getData = async () => {
-      const { data } = await axios(`http://localhost:5000/post/${user.email}`, {
-        withCredentials: true,
-      });
+      const { data } = await axios(
+        `https://helphive.vercel.app/post/${user.email}`,
+        {
+          withCredentials: true,
+        }
+      );
       setPosts(data);
       setLoading(false);
     };
@@ -37,7 +40,7 @@ const ManagePost = () => {
     setLoading(true);
     const getRequestsData = async () => {
       const { data } = await axios(
-        `http://localhost:5000/requests/${user.email}`,
+        `https://helphive.vercel.app/requests/${user.email}`,
         { withCredentials: true }
       );
       setRequests(data);
@@ -57,7 +60,7 @@ const ManagePost = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/post/${id}`, {
+        fetch(`https://helphive.vercel.app/post/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -86,7 +89,7 @@ const ManagePost = () => {
       confirmButtonText: "Yes, cancel request!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/request/${id}`, {
+        fetch(`https://helphive.vercel.app/request/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

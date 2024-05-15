@@ -44,7 +44,7 @@ const UpdatePost = () => {
     };
     try {
       const { data } = await axios.put(
-        `http://localhost:5000/posts/${post._id}`,
+        `https://helphive.vercel.app/posts/${post._id}`,
         updatedPostData,
         { withCredentials: true }
       );

@@ -41,7 +41,7 @@ const AuthProvider = ({ children }) => {
   // Logout
   const logout = async () => {
     setUser(null);
-    const { data } = await axios(`http://localhost:5000/logout`, {
+    const { data } = await axios(`https://helphive.vercel.app/logout`, {
       withCredentials: true,
     });
     console.log(data);

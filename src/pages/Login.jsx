@@ -50,7 +50,7 @@ const Login = () => {
 
       //2. get token from server using email
       const { data } = await axios.post(
-        `http://localhost:5000/jwt`,
+        `https://helphive.vercel.app/jwt`,
         {
           email: result?.user?.email,
         },
@@ -90,7 +90,7 @@ const Login = () => {
       console.log(result.user);
 
       const { data } = await axios.post(
-        `http://localhost:5000/jwt`,
+        `https://helphive.vercel.app/jwt`,
         {
           email: result?.user?.email,
         },

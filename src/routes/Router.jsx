@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        loader: () => fetch(`http://localhost:5000/posts`),
+        loader: () => fetch(`https://helphive.vercel.app/posts`),
       },
       {
         path: "/login",
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/posts/${params.id}`),
+          fetch(`https://helphive.vercel.app/posts/${params.id}`),
       },
       {
         path: "/need-volunteer",
@@ -69,7 +69,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/posts/${params.id}`),
+          fetch(`https://helphive.vercel.app/posts/${params.id}`),
       },
       {
         path: "/apply/:id",
@@ -79,7 +79,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/posts/${params.id}`),
+          fetch(`https://helphive.vercel.app/posts/${params.id}`),
       },
     ],
   },
