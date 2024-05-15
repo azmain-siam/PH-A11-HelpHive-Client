@@ -10,11 +10,13 @@ import NeedVolunteer from "../pages/NeedVolunteer";
 import ManagePost from "../pages/ManagePost";
 import UpdatePost from "../pages/UpdatePost";
 import BeVolunteer from "../pages/BeVolunteer";
+import Error from "../pages/Error";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <Error />,
     children: [
       {
         path: "/",

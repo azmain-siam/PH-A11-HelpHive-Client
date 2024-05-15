@@ -3,21 +3,22 @@ import { useEffect, useState } from "react";
 import { Bars } from "react-loader-spinner";
 import CardsOfVolunteer from "../components/CardsOfVolunteer";
 import axios from "axios";
+import { FaThList } from "react-icons/fa";
+import { BsFillGrid3X3GapFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const NeedVolunteer = () => {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   fetch(`${import.meta.env.VITE_URL}/posts?&search=${search}`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setPosts(data);
-  //       setLoading(false);
-  //     });
-  // }, [search]);
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
+
+  console.log(isChecked);
+
   const handleSearch = (e) => {
     e.preventDefault();
     const searchText = e.target.search.value;
@@ -54,10 +55,7 @@ const NeedVolunteer = () => {
 
   return (
     <div className="mt-5">
-      {/* <h3 className="text-2xl text-center md:text-4xl font-spartan font-bold mb-8">
-        <span className="text-primary">Need</span> Volunteer
-      </h3> */}
-      <div className="flex justify-center my-7">
+      <div className="flex justify-between my-7">
         <form onSubmit={handleSearch} className="max-w-md w-full">
           <label
             htmlFor="default-search"
@@ -99,13 +97,44 @@ const NeedVolunteer = () => {
             </button>
           </div>
         </form>
+
+        {/* Layout Toggle */}
+        <label className="themeSwitcherTwo border shadow-card relative inline-flex cursor-pointer select-none items-center justify-center border-gray-300 rounded-xl  dark:bg-gray-700 dark:border-gray-600 dark:text-white p-2">
+          <input
+            type="checkbox"
+            className="sr-only"
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+          />
+          <span
+            className={`flex gap-2 items-center rounded py-2 px-[18px] font-medium ${
+              !isChecked
+                ? "text-primary bg-[#f4f7ff] dark:bg-gray-700"
+                : "text-body-color"
+            }`}
+          >
+            <BsFillGrid3X3GapFill />
+            Grid
+          </span>
+          <span
+            className={`flex gap-2 items-center rounded py-2 px-[18px] font-medium ${
+              isChecked
+                ? "text-primary bg-[#f4f7ff] dark:bg-gray-700"
+                : "text-body-color"
+            }`}
+          >
+            <FaThList />
+            List
+          </span>
+        </label>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-2 text-center">
-        {posts.map((post) => (
-          <CardsOfVolunteer key={post._id} post={post} />
-        ))}
-        {/* {posts.length < 1 && (
+      {!isChecked ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-2 text-center">
+          {posts.map((post) => (
+            <CardsOfVolunteer key={post._id} post={post} />
+          ))}
+          {/* {posts.length < 1 && (
           <div className="text-center my-14">
             <img className="w-[200px] mx-auto" src={notFound} alt="" />
             <h3 className="text-center mt-5 font-medium text-xl">
@@ -113,7 +142,51 @@ const NeedVolunteer = () => {
             </h3>
           </div>
         )} */}
-      </div>
+        </div>
+      ) : (
+        <div className="overflow-x-auto mt-7 border border-[#e4e4e4] dark:border-gray-500 rounded-lg">
+          <table className="table">
+            <thead className="text-sm text-gray-500 dark:text-gray-400">
+              <tr className="border-[#e4e4e4] dark:border-gray-500">
+                <th>Image</th>
+                <th>Post Title</th>
+                <th>Organizer Name</th>
+                <th>Category</th>
+                <th>Volunteer Need</th>
+                <th>Deadline</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm">
+              {posts.map((post) => (
+                <tr
+                  key={post._id}
+                  className="font-semibold border-[#e4e4e4] dark:border-gray-500"
+                >
+                  <td>
+                    <img
+                      className="w-16 h-12 object-cover rounded-md ml-2"
+                      src={post.thumbnail}
+                    />
+                  </td>
+                  <td>{post.post_title}</td>
+                  <td>{post.organizerName}</td>
+                  <td>{post.category}</td>
+                  <td>{post.volunteers_needed}</td>
+                  <td>{new Date(post.deadline).toLocaleDateString()}</td>
+                  <td>
+                    <Link to={`/post/details/${post._id}`}>
+                      <button className="py-2 px-2 border rounded-md w-full bg-black border-black hover:border-[#28282B] dark:bg-primary dark:border-primary dark:hover:bg-transparent  dark:hover:text-white hover:text-[#28282B] text-white uppercase transition-all hover:bg-white duration-300 hover:scale-105">
+                        Details
+                      </button>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

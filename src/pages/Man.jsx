@@ -12,6 +12,7 @@ import axios from "axios";
 import { Bars } from "react-loader-spinner";
 import notFound from "../assets/no-data.svg";
 import { Helmet } from "react-helmet";
+import { TabPanels } from "@chakra-ui/react";
 
 const ManagePost = () => {
   const { user } = useAuth();
@@ -126,7 +127,7 @@ const ManagePost = () => {
   return (
     <div className="my-5 max-w-7xl w-[95%] md:w-[93%] mx-auto mt-10 md:mt-12">
       <Helmet>
-        <title>Manage Post | HelpHive</title>
+        <title>Manage Post | ArtFusion</title>
       </Helmet>
       <div className="text-center mb-10 md:mb-12">
         <h3 className="text-2xl md:text-4xl font-bold mb-3">
@@ -134,6 +135,20 @@ const ManagePost = () => {
         </h3>
       </div>
       <div>
+        <Tabs isFitted variant="enclosed">
+          <TabList mb="1em">
+            <Tab>One</Tab>
+            <Tab>Two</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <p>one!</p>
+            </TabPanel>
+            <TabPanel>
+              <p>two!</p>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
         <Tabs>
           <div className="font-semibold">
             <TabList>
