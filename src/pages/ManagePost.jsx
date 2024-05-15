@@ -19,9 +19,10 @@ const ManagePost = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
+  console.log(loading);
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     const getData = async () => {
       const { data } = await axios(
         `${import.meta.env.VITE_URL}/post/${user.email}`,

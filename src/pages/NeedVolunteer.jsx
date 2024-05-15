@@ -17,8 +17,6 @@ const NeedVolunteer = () => {
     setIsChecked(!isChecked);
   };
 
-  console.log(isChecked);
-
   const handleSearch = (e) => {
     e.preventDefault();
     const searchText = e.target.search.value;
