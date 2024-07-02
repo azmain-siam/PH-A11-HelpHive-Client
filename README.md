@@ -14,6 +14,14 @@ Welcome to HelpHive, a platform designed to bridge the gap between volunteers an
 
 Thank you for visiting **HelpHive**! We hope you enjoy exploring our website and discovering the volunteer opportunities.
 
+## Technologies used in this project
+1. **React**
+2. **Tailwind CSS**
+3. **NodeJS**
+4. **ExpressJS**
+5. **Firebase**
+6. **MongoDB**
+
 ## npm packages which used in this website:
 
 - **axios**
