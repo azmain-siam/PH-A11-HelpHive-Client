@@ -46,7 +46,7 @@ To run the BloodBond project locally by cloning from the GitHub repository, foll
 2. **Navigate to the Project Directory**
 
    ```terminal
-   cd PH-A11-HelpHive-Clien
+   cd PH-A11-HelpHive-Client
 3. **Install Dependencies**
 
    ```terminal
