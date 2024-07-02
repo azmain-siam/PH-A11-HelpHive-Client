@@ -2,6 +2,8 @@
 
 Welcome to HelpHive, a platform designed to bridge the gap between volunteers and organizations. Our goal is to make it easier for people to find meaningful volunteer opportunities and for organizations to manage their volunteer needs effectively.
 
+**Live Site**: https://a11-helphive.web.app
+
 ## Features and Characteristics of this website:
 
 - **Volunteer Matching**: Easily find volunteer opportunities that match your interests and skills.
@@ -24,4 +26,25 @@ Thank you for visiting **HelpHive**! We hope you enjoy exploring our website and
 - **sweetalert2**
 - **swiper**
 
-**Live Site**: https://a11-helphive.web.app
+
+## Running the Project
+
+To run the BloodBond project locally by cloning from the GitHub repository, follow these steps:
+
+1. **Clone the Repository**
+
+   ```terminal
+   git clone https://github.com/azmain-siam/PH-A11-HelpHive-Client.git
+2. **Navigate to the Project Directory**
+
+   ```terminal
+   cd PH-A11-HelpHive-Clien
+3. **Install Dependencies**
+
+   ```terminal
+   npm install
+4. **Run the server**
+
+   ```terminal
+   npm run dev
+
