@@ -8,9 +8,9 @@ Welcome to HelpHive, a platform designed to bridge the gap between volunteers an
 
 - **Volunteer Matching**: Easily find volunteer opportunities that match your interests and skills.
 - **Event Management**: Create, manage, and track volunteer events with ease.
-- **Real-Time Updates**: Receive real-time updates about your volunteer activities and events.
+<!--- **Real-Time Updates**: Receive real-time updates about your volunteer activities and events.-->
 - **Dynamic Layout**: Switch between column and table layouts for a better browsing experience.
-- **Impact Tracking**: Monitor and showcase the impact of your volunteer work through detailed reports and analytics.
+<!--- **Impact Tracking**: Monitor and showcase the impact of your volunteer work through detailed reports and analytics.-->
 
 Thank you for visiting **HelpHive**! We hope you enjoy exploring our website and discovering the volunteer opportunities.
 
